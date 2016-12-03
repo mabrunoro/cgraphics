@@ -1,0 +1,5 @@
+<aplicacao>
+	<arquivoDaArena nome="arena" tipo="svg" caminho="./4 - JogoCanhao/"></arquivoDaArena>
+	<carro velTiro="0.2" velCarro="0.1"></carro>
+	<carroInimigo freqTiro="0.001" velCarro="0.1" velTiro="2"></carroInimigo>
+</aplicacao>

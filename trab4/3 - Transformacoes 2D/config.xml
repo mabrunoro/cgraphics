@@ -1,0 +1,4 @@
+<aplicacao>
+	<arquivoDaArena nome="arena" tipo="svg" caminho="./3 - Transformacoes 2D/"></arquivoDaArena>
+	<carro velTiro="3" velCarro="1.0"></carro>
+</aplicacao>
