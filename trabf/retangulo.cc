@@ -19,12 +19,6 @@ void retangulo::draw(float h)
 	// Desenha o retângulo
 	GLfloat mat_cor[] = {cores.red, cores.green, cores.blue,1.0};
 
-	GLfloat no_mat[] = {0.0,0.0,0.0,1.0};
-
-	glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
-	glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, no_mat);
-
 	glPushMatrix();
 
 	glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);

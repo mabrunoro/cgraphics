@@ -261,9 +261,16 @@ void mouseclick(int butt, int st, int x, int y)
 		ifup = true;
 
 	if((butt == GLUT_RIGHT_BUTTON) && (st == GLUT_DOWN))
+	{
 		movecam3 = true;
+		lastcamx = x;
+		lastcamy = y;
+	}
 	else if((butt == GLUT_RIGHT_BUTTON) && (st == GLUT_UP))
+	{
 		movecam3 = false;
+		lastcamx += jogador.delta;
+	}
 
 	// cout << '\t' << movecam3 << endl;
 }
@@ -316,25 +323,31 @@ void display(void)
 			gluLookAt(jogador.getchassix(), jogador.getchassiy(), -25,
 								jogador.getcanx(), jogador.getcany(), -24, 0,0,-1);
 			break;
+
 		case 2:
 			gluLookAt(jogador.pontax(0),jogador.pontay(0), -2.5*jogador.cannon.profundidade,
 								jogador.pontax(4),jogador.pontay(4), -2.5*jogador.cannon.profundidade, 0,0,-1);
 			break;
+
 		case 3:
 			gluLookAt(jogador.get3rdpx(4), jogador.get3rdpy(4), -80,
 							jogador.getcx(), jogador.getcy(), -60, 0,0,-1);
 			glTranslatef(jogador.cx,jogador.cy,0);
 			glRotatef(camxz,1,0,0);
-			glRotatef(camxy,0,0,1);
+			// if(movecam3)
+			// 	glRotatef(camxy+jogador.delta,0,0,1);
+			// else
+				glRotatef(camxy,0,0,1);
 			glTranslatef(-jogador.cx,-jogador.cy,0);
 			break;
+
 		case 4:
 			gluLookAt(janarena.getcx(), janarena.getcy(), -100,
 								janarena.getcx(), janarena.getcy(), 100, 0,-1,0);
 			break;
 	}
 
-	GLfloat light_position[] = { 0.0, 0.0, -5.0, 1.0 };
+	GLfloat light_position[] = { pistadentro.cx, pistadentro.cy, -100, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
 	// desenha os itens

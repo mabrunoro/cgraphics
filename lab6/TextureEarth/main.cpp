@@ -325,11 +325,11 @@ void display (void) {
 	GLfloat light_position[] = { 0.0, 0.0, 0.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-	//    glEnable(GL_LIGHT1);
-	//    GLfloat light_position1[] = { 70.0, 70.0, 0.0, 1.0 };
-	//    GLfloat light1[] = {1,1,1,1};
-	//    glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
-	//    glLightfv(GL_LIGHT1, GL_DIFFUSE, light1);
+	  //  glEnable(GL_LIGHT1);
+	  //  GLfloat light_position1[] = { 70.0, 70.0, 0.0, 1.0 };
+	  //  GLfloat light1[] = {1,1,1,1};
+	  //  glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+	  //  glLightfv(GL_LIGHT1, GL_DIFFUSE, light1);
 
 	glPushMatrix();
 	glScalef(70,70,1);

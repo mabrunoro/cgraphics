@@ -116,16 +116,16 @@ carro::carro(float x, float y, float ro, float var, float vran, float del, int v
 // varoda = variável ângulo roda
 void carro::draw()
 {
-
-
-	GLfloat no_mat[] = {0.0,0.0,0.0,1.0};
-
-	// std::cout << varoda << std::endl;
-	// glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
-	// glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
-	// glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, no_mat);
+	GLfloat materialColorA[] = { 0.2, 0.2, 0.2, 1};
+	GLfloat materialColorD[] = { 0.8, 0.8, 0.8, 1};
+	GLfloat mat_specular[] = { 0.1, 0.1, 0.1, 1};
+	GLfloat mat_shininess[] = { 0 };
 
 	glPushMatrix();
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
 		glTranslatef(cx, cy, 0);
 		glRotatef(delta, 0, 0, 1);
 		glPushMatrix();
@@ -163,6 +163,11 @@ void carro::draw()
 			// glRotatef(-90,0,1,0);
 			rte.draw(pran,0,false);
 		glPopMatrix();
+
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
 
 		chassi.draw(chassi.profundidade);
 		cockpit.draw(1,2,1,chassi.profundidade*1.5);

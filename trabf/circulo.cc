@@ -15,32 +15,28 @@ void circulo::draw(float sx,float sy,float sz,float dz)
 {
 	GLfloat mat_cor[] = {cores.red, cores.green, cores.blue,1.0};
 
-	GLfloat no_mat[] = {0.0,0.0,0.0,1.0};
-
-	glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
-	glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, no_mat);
 	glPushMatrix();
-	glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
-	glColor3fv(mat_cor);
-	// cor do círculo
-	// glColor3f(cores.red, cores.green, cores.blue);
+		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+		glColor3fv(mat_cor);
+		// cor do círculo
+		// glColor3f(cores.red, cores.green, cores.blue);
 
-	// desenha círculo
-	glTranslatef(cx, cy, -dz);
-	glScalef(sx,sy,sz);
-	glutSolidSphere(raio,32,32);
-	// glBegin(GL_POLYGON);
-	// 	//Change the 6 to 12 to increase the steps (number of drawn points) for a smoother circle
-	// 	//Note that anything above 24 will have little affect on the circles appearance
-	// 	//Value 1.5 - Draws Triangle
-	// 	//Value 2 - Draws Square
-	// 	//Value 3 - Draws Hexagon
-	// 	//Value 4 - Draws Octagon
-	// 	//Value 5 - Draws Decagon
-	// 	for(double i = 0; i > -2 * M_PI; i -= M_PI / 24)
-	// 		glVertex3f((cos(i) * raio), (sin(i) * raio), 0.0);
-	// glEnd();
+		// desenha círculo
+		glTranslatef(cx, cy, -dz);
+		glScalef(sx,sy,sz);
+		glutSolidSphere(raio,32,32);
+		// glBegin(GL_POLYGON);
+		// 	//Change the 6 to 12 to increase the steps (number of drawn points) for a smoother circle
+		// 	//Note that anything above 24 will have little affect on the circles appearance
+		// 	//Value 1.5 - Draws Triangle
+		// 	//Value 2 - Draws Square
+		// 	//Value 3 - Draws Hexagon
+		// 	//Value 4 - Draws Octagon
+		// 	//Value 5 - Draws Decagon
+		// 	for(double i = 0; i > -2 * M_PI; i -= M_PI / 24)
+		// 		glVertex3f((cos(i) * raio), (sin(i) * raio), 0.0);
+		// glEnd();
+	glPopMatrix();
 
 	#if DEBUG
 		std::cout << "Debug círculo:" << std::endl << std::endl;
@@ -51,21 +47,30 @@ void circulo::draw(float sx,float sy,float sz,float dz)
 			<< cores.green << ','
 			<< cores.blue << ')' << std::endl;
 	#endif
-	glPopMatrix();
 }
 
 void circulo::pistdraw(bool df)
 {
-
-	draw(1,1,0,0);
-
-	GLfloat no_mat[] = {0.0,0.0,0.0,1.0};
+	GLfloat no_mat[] = {0,0,0,1};
+	GLfloat materialColorA[] = { 0.2, 0.2, 0.2, 1};
+	GLfloat materialColorD[] = { 0.8, 0.8, 0.8, 1};
+	GLfloat mat_specular[] = { 0, 0, 0, 1};
+	GLfloat mat_shininess[] = { 0 };
 
 	glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
 	glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, no_mat);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, no_mat);
+
+	draw(1,1,0,0);
 
 	glPushMatrix();
+
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
+
 		GLfloat mat_cor[] = {0, 0, 0, 1.0};
 		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
 		GLUquadric *quad = gluNewQuadric();
@@ -78,7 +83,7 @@ void circulo::pistdraw(bool df)
 
 		glScalef(1,1,-1);
 
-		gluCylinder(quad,raio,raio,raio,32,32);
+		gluCylinder(quad,raio,raio,raio/2,32,32);
 	glPopMatrix();
 }
 
