@@ -70,6 +70,11 @@ bool jogando;						// indica se o jogador está jogando
 bool ganhou;						// indica se o jogador venceu
 int laps;							// número de voltas do jogador
 int tipocamera;				// tipo da câmera utilizada
+bool movecam3;				// indica se é para mover o ângulo da câmera 3
+float camxy;
+float camxz;
+float lastcamx;
+float lastcamy;
 /*---------------------------------------------------------------------*/
 /*---------------------------------------------------------------------*/
 
@@ -211,17 +216,33 @@ void mousepos(int x, int y)
 	i = (i*3)/10;
 	mousex += (i*10)/3;
 	if((jogador.vacan >= 45) && (i > 0))
-	{
 		jogador.vacan = 45;
-		return;
-	}
 	else if((jogador.vacan <= -45) && (i < 0))
-	{
 		jogador.vacan = -45;
-		return;
-	}
 	else
 		jogador.vacan += i;
+}
+
+void mousecam(int x, int y)
+{
+	if(!movecam3)
+	return;
+
+	camxy += x - lastcamx;
+	camxz += y - lastcamy;
+
+	if(camxy > 180)
+	camxy = 180;
+	else if(camxy < -180)
+	camxy = -180;
+
+	if(camxz > 90)
+	camxz = 90;
+	else if(camxz < -90)
+	camxz = -90;
+
+	lastcamx = x;
+	lastcamy = y;
 }
 
 void mouseclick(int butt, int st, int x, int y)
@@ -238,7 +259,13 @@ void mouseclick(int butt, int st, int x, int y)
 	}
 	else if((butt == GLUT_LEFT_BUTTON) && (st == GLUT_UP))
 		ifup = true;
-	else if((butt == GLUT_MIDDLE_BUTTON) && (st == GLUT_DOWN))
+
+	if((butt == GLUT_RIGHT_BUTTON) && (st == GLUT_DOWN))
+		movecam3 = true;
+	else if((butt == GLUT_RIGHT_BUTTON) && (st == GLUT_UP))
+		movecam3 = false;
+
+	// cout << '\t' << movecam3 << endl;
 }
 
 
@@ -295,7 +322,11 @@ void display(void)
 			break;
 		case 3:
 			gluLookAt(jogador.get3rdpx(4), jogador.get3rdpy(4), -80,
-								jogador.getcx(), jogador.getcy(), -60, 0,0,-1);
+							jogador.getcx(), jogador.getcy(), -60, 0,0,-1);
+			glTranslatef(jogador.cx,jogador.cy,0);
+			glRotatef(camxz,1,0,0);
+			glRotatef(camxy,0,0,1);
+			glTranslatef(-jogador.cx,-jogador.cy,0);
 			break;
 		case 4:
 			gluLookAt(janarena.getcx(), janarena.getcy(), -100,
@@ -470,6 +501,7 @@ int main(int argc, char** argv)
 	ganhou = false;
 	laps = 0;
 	tipocamera = 4;
+	movecam3 = false;
 
 	// cout << "Jogador: " << jogador.id << endl;
 	// for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
@@ -485,6 +517,7 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(keypress);
 	glutKeyboardUpFunc(keyup);
 	glutPassiveMotionFunc(mousepos);
+	glutMotionFunc(mousecam);
 
 	glutMouseFunc(mouseclick);
 
