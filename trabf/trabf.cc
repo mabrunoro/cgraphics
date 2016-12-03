@@ -309,6 +309,13 @@ void display(void)
 
 	pistafora.draw(1,1,0,0);
 	pistadentro.draw(1,1,0,0);
+	GLfloat mat_cor[] = {0,0,0,1.0};
+	glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+	GLUquadric *quad = gluNewQuadric();
+	gluQuadricOrientation(quad,GLU_INSIDE);
+	gluCylinder(quad,pistafora.raio,pistafora.raio,pistafora.raio*2,32,32);
+	gluQuadricOrientation(quad,GLU_OUTSIDE);
+	gluCylinder(quad,pistadentro.raio,pistadentro.raio,pistadentro.raio*2,32,32);
 
 
 	for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
