@@ -46,11 +46,11 @@ int lerxml(char *argv);
 
 /*---------------------------------------------------------------------*/
 /*---------------------------------------------------------------------*/
-janela			janarena;			// janela principal
-retangulo		chegada;			// linha de chegada
-carro			jogador;			// circulo jogador
-circulo			pistafora;			// circulo pista de fora
-circulo			pistadentro;		// circulo da pista de dentro
+janela				janarena;			// janela principal
+retangulo			chegada;			// linha de chegada
+carro					jogador;			// circulo jogador
+circulo				pistafora;		// circulo pista de fora
+circulo				pistadentro;	// circulo da pista de dentro
 list<carro>		inimigos;			// ponteiro do vetor com os inimigos
 list<municao>	tiros;				// vetor com os tiros atuais
 /*---------------------------------------------------------------------*/
