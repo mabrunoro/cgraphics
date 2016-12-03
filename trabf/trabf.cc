@@ -307,15 +307,8 @@ void display(void)
 	// desenha os itens
 	// glDisable(GL_LIGHTING);
 
-	pistafora.draw(1,1,0,0);
-	pistadentro.draw(1,1,0,0);
-	GLfloat mat_cor[] = {0,0,0,1.0};
-	glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
-	GLUquadric *quad = gluNewQuadric();
-	gluQuadricOrientation(quad,GLU_INSIDE);
-	gluCylinder(quad,pistafora.raio,pistafora.raio,pistafora.raio*2,32,32);
-	gluQuadricOrientation(quad,GLU_OUTSIDE);
-	gluCylinder(quad,pistadentro.raio,pistadentro.raio,pistadentro.raio*2,32,32);
+	pistafora.pistdraw(true);
+	pistadentro.pistdraw(false);
 
 
 	for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
@@ -325,11 +318,11 @@ void display(void)
 		it->draw(2*jogador.cannon.profundidade);
 
 	jogador.draw();
-	// glEnable(GL_LIGHTING);
 
 	chegada.draw(1);
 
 	printcrono(pistafora.cx + pistafora.raio/4, pistafora.cy - pistafora.raio + 10);
+	// glEnable(GL_LIGHTING);
 
 	janarena.atualizabuff();
 	// cout << "Lap: " << laps << endl;

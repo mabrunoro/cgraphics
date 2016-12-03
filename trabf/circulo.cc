@@ -54,6 +54,34 @@ void circulo::draw(float sx,float sy,float sz,float dz)
 	glPopMatrix();
 }
 
+void circulo::pistdraw(bool df)
+{
+
+	draw(1,1,0,0);
+
+	GLfloat no_mat[] = {0.0,0.0,0.0,1.0};
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
+	glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, no_mat);
+
+	glPushMatrix();
+		GLfloat mat_cor[] = {0, 0, 0,1.0};
+		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+		GLUquadric *quad = gluNewQuadric();
+		if(df)
+			gluQuadricOrientation(quad,GLU_INSIDE);
+		else
+			gluQuadricOrientation(quad,GLU_OUTSIDE);
+
+		glTranslatef(cx,cy,0);
+
+		glScalef(1,1,-1);
+
+		gluCylinder(quad,raio,raio,raio,32,32);
+	glPopMatrix();
+}
+
 float circulo::rdistance(circulo c) const
 {
 	return (sqrt((c.cx-cx)*(c.cx-cx)+(c.cy-cy)*(c.cy-cy)) - c.raio - raio);

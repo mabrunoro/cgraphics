@@ -26,6 +26,8 @@ public:
 
 	void draw(float sx,float sy,float sz,float dz);
 
+	void pistdraw(bool df);
+
 	float rdistance(circulo c) const;
 
 	template<typename T>
