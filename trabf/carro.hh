@@ -42,7 +42,7 @@ public:
 	float velocidade;
 
 	retangulo chassi;
-	elipse cockpit;
+	circulo cockpit;
 
 	roda rdd; // dianteira direita
 	roda rde; // dianteira esquerda

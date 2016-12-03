@@ -92,7 +92,7 @@ carro::carro() {}
 carro::carro(float r) : circulo(0,0,r,0,0,0), delta(0), pran(0.005), varoda(0), vacan(0), velocidade(0)
 {
 	chassi = retangulo(0,0,24*r/RAIOP,42*r/RAIOP,10*r/RAIOP,1,0,0);
-	cockpit = elipse(0, 0, chassi.largura/4, 0.3, 0.3, 0, chassi.altura/4);
+	cockpit = circulo(0, 0, chassi.largura/4, 0.3, 0.3, 0);
 	cannon = retangulo(0,0,4*r/RAIOP,13*r/RAIOP,4*r/RAIOP,0,1,0);
 	rdd = roda(r,true);
 	rde = roda(r,false);
@@ -103,7 +103,7 @@ carro::carro(float r) : circulo(0,0,r,0,0,0), delta(0), pran(0.005), varoda(0), 
 carro::carro(float x, float y, float ro, float var, float vran, float del, int vac, float vel) : circulo(x,y,ro,0,0,0), varoda(var), pran(vran), delta(del), vacan(vac), velocidade(vel)
 {
 	chassi = retangulo(0,0,24*ro/RAIOP,42*ro/RAIOP,10*ro/RAIOP,1,0,0);
-	cockpit = elipse(0, 0, chassi.largura/4, 1, 1, 1, chassi.altura/4);
+	cockpit = circulo(0, 0, chassi.largura/4, 1, 1, 1);
 	cannon = retangulo(0,0,4*ro/RAIOP,13*ro/RAIOP,4*ro/RAIOP,0,1,0);
 	rdd = roda(ro,true);
 	rde = roda(ro,false);
@@ -165,7 +165,7 @@ void carro::draw()
 		glPopMatrix();
 
 		chassi.draw(chassi.profundidade);
-		cockpit.draw();
+		cockpit.draw(1,2,1,chassi.profundidade*1.5);
 	glPopMatrix();
 }
 
@@ -324,14 +324,14 @@ void carro::movet(circulo pd,circulo pf,std::list<carro> im,GLdouble diff)
 	}
 }
 
-float carro::pontax()
+float carro::pontax(float dx)
 {
-	return ((chassi.altura/2) * sin(delta*M_PI/180.0) + cannon.altura * sin((vacan+delta) * M_PI/180.0) + cx);
+	return ((chassi.altura/2) * sin(delta*M_PI/180.0) + (cannon.altura + dx) * sin((vacan+delta) * M_PI/180.0) + cx);
 }
 
-float carro::pontay()
+float carro::pontay(float dy)
 {
-	return (cy - ((chassi.altura/2) * cos(delta*M_PI/180.0) + cannon.altura * cos((vacan+delta) * M_PI/180.0)));
+	return (cy - ((chassi.altura/2) * cos(delta*M_PI/180.0) + (cannon.altura dy) * cos((vacan+delta) * M_PI/180.0)));
 }
 
 float carro::pontan()

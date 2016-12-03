@@ -66,7 +66,7 @@ void circulo::pistdraw(bool df)
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, no_mat);
 
 	glPushMatrix();
-		GLfloat mat_cor[] = {0, 0, 0,1.0};
+		GLfloat mat_cor[] = {0, 0, 0, 1.0};
 		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
 		GLUquadric *quad = gluNewQuadric();
 		if(df)

@@ -276,20 +276,20 @@ void display(void)
 	glLoadIdentity();
 	// glOrtho(largura/2,-largura/2,altura/2,-largura/2,-1.0,50.0);
 	if(tipocamera == 4)
-		gluPerspective(90, 1.0, 10, 500);
+		gluPerspective(90, 1.0, 1, 500);
 	else
-		gluPerspective(90, 1.0, 10, 600);
+		gluPerspective(90, 1.0, 1, 600);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	switch(tipocamera)
 	{
 		case 1:
-			gluLookAt(jogador.getcx(), jogador.getcy(), -20,
-								jogador.getchassix(), jogador.getchassiy(), -15, 0,0,-1);
+			gluLookAt(jogador.getchassix(), jogador.getchassiy(), -25,
+								jogador.getcanx(), jogador.getcany(), -24, 0,0,-1);
 			break;
 		case 2:
-			gluLookAt(jogador.getchassix(), jogador.getchassiy(), -16,
-								jogador.getcanx(), jogador.getcany(), -15, 0,0,-1);
+			gluLookAt(jogador.getpontax(0),jogador.getpontay(0), -2*cannon.profundidade,
+								jogador.getpontax(4),jogador.getpontay(4), -2*cannon.profundidade, 0,0,-1);
 			break;
 		case 3:
 			gluLookAt(jogador.get3rdpx(4), jogador.get3rdpy(4), -80,
