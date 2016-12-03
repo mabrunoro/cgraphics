@@ -238,6 +238,7 @@ void mouseclick(int butt, int st, int x, int y)
 	}
 	else if((butt == GLUT_LEFT_BUTTON) && (st == GLUT_UP))
 		ifup = true;
+	else if((butt == GLUT_MIDDLE_BUTTON) && (st == GLUT_DOWN))
 }
 
 
