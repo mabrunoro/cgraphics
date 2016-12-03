@@ -331,7 +331,7 @@ float carro::pontax(float dx)
 
 float carro::pontay(float dy)
 {
-	return (cy - ((chassi.altura/2) * cos(delta*M_PI/180.0) + (cannon.altura dy) * cos((vacan+delta) * M_PI/180.0)));
+	return (cy - ((chassi.altura/2) * cos(delta*M_PI/180.0) + (cannon.altura + dy) * cos((vacan+delta) * M_PI/180.0)));
 }
 
 float carro::pontan()

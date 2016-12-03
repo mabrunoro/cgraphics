@@ -228,8 +228,8 @@ void mouseclick(int butt, int st, int x, int y)
 {
 	if((butt == GLUT_LEFT_BUTTON) && (st == GLUT_DOWN) && (ifup))
 	{
-		float dx = jogador.pontax();
-		float dy = jogador.pontay();
+		float dx = jogador.pontax(0);
+		float dy = jogador.pontay(0);
 		float an = jogador.pontan();
 
 		municao a = municao(dx, dy, RTIRO, an, veltiroj,false);
@@ -276,7 +276,8 @@ void display(void)
 	glLoadIdentity();
 	// glOrtho(largura/2,-largura/2,altura/2,-largura/2,-1.0,50.0);
 	if(tipocamera == 4)
-		gluPerspective(90, 1.0, 1, 500);
+		glOrtho(-janarena.largura/2,janarena.largura/2,-janarena.altura/2,janarena.altura/2,-100,100);
+		// gluPerspective(90, 1.0, 1, 500);
 	else
 		gluPerspective(90, 1.0, 1, 600);
 	glMatrixMode(GL_MODELVIEW);
@@ -288,15 +289,15 @@ void display(void)
 								jogador.getcanx(), jogador.getcany(), -24, 0,0,-1);
 			break;
 		case 2:
-			gluLookAt(jogador.getpontax(0),jogador.getpontay(0), -2*cannon.profundidade,
-								jogador.getpontax(4),jogador.getpontay(4), -2*cannon.profundidade, 0,0,-1);
+			gluLookAt(jogador.pontax(0),jogador.pontay(0), -2.5*jogador.cannon.profundidade,
+								jogador.pontax(4),jogador.pontay(4), -2.5*jogador.cannon.profundidade, 0,0,-1);
 			break;
 		case 3:
 			gluLookAt(jogador.get3rdpx(4), jogador.get3rdpy(4), -80,
 								jogador.getcx(), jogador.getcy(), -60, 0,0,-1);
 			break;
 		case 4:
-			gluLookAt(janarena.getcx(), janarena.getcy(), -400,
+			gluLookAt(janarena.getcx(), janarena.getcy(), -100,
 								janarena.getcx(), janarena.getcy(), 100, 0,-1,0);
 			break;
 	}
@@ -412,8 +413,8 @@ void idle(void)
 	{
 		for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
 		{
-			float dx = it->pontax();
-			float dy = it->pontay();
+			float dx = it->pontax(0);
+			float dy = it->pontay(0);
 			float an = it->pontan();
 
 			municao a = municao(dx, dy, RTIRO, an, veltiroi,true);

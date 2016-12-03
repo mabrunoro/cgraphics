@@ -79,9 +79,9 @@ public:
 
 	void movet(circulo pd,circulo pf,std::list<carro> im,GLdouble diff);
 
-	float pontax();
+	float pontax(float dx);
 
-	float pontay();
+	float pontay(float dy);
 
 	float pontan();
 
