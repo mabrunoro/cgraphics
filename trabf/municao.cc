@@ -2,7 +2,7 @@
 
 municao::municao() {}
 
-municao::municao(float x, float y, float r, float a, float v, bool t) : circulo(x,y,r,1,0.2,0), angulo(a), velocidade(v), tiroinimigo(t) {}
+municao::municao(float x, float y, float r, float a, float v, bool t) : circulo(x,y,r,0.5,0.5,0.5), angulo(a), velocidade(v), tiroinimigo(t) {}
 
 void municao::draw(float dz)
 {

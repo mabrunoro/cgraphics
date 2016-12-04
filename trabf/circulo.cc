@@ -13,10 +13,19 @@ circulo::circulo() : cx(0), cy(0), raio(0)
 
 void circulo::draw(float sx,float sy,float sz,float dz)
 {
-	GLfloat mat_cor[] = {cores.red, cores.green, cores.blue,1.0};
+	GLfloat no_mat[] = {0,0,0,1};
+	GLfloat materialColorA[] = { float(0.5*cores.red), float(0.5*cores.green), float(0.5*cores.blue), 1};
+	GLfloat materialColorD[] = { float(0.8*cores.red), float(0.8*cores.green), float(0.8*cores.blue), 1};
+	GLfloat mat_specular[] = { float(0.5*cores.red), float(0.5*cores.green), float(0.5*cores.blue), 1};
+	GLfloat mat_cor[] = { cores.red,cores.green,cores.blue,1.0 };
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
+	// glMaterialf(GL_FRONT, GL_SHININESS, 29);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat_cor);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_cor);
 
 	glPushMatrix();
-		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+		// glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
 		glColor3fv(mat_cor);
 		// cor do círculo
 		// glColor3f(cores.red, cores.green, cores.blue);
@@ -52,17 +61,13 @@ void circulo::draw(float sx,float sy,float sz,float dz)
 void circulo::pistdraw(bool df)
 {
 	GLfloat no_mat[] = {0,0,0,1};
-	GLfloat materialColorA[] = { 0.2, 0.2, 0.2, 1};
-	GLfloat materialColorD[] = { 0.8, 0.8, 0.8, 1};
-	GLfloat mat_specular[] = { 0, 0, 0, 1};
-	GLfloat mat_shininess[] = { 0 };
+	GLfloat materialColorA[] = { float(0.5*cores.red), float(0.5*cores.green), float(0.5*cores.blue), 1};
+	GLfloat materialColorD[] = { float(0.8*cores.red), float(0.8*cores.green), float(0.8*cores.blue), 1};
+	GLfloat mat_specular[] = { float(0.5*cores.red), float(0.5*cores.green), float(0.5*cores.blue), 1};
+	GLfloat mat_shininess[] = { 50 };
+	GLfloat mat_cor[] = { cores.red,cores.green,cores.blue,1.0 };
 
-	glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
-	glMaterialfv(GL_FRONT, GL_SHININESS, no_mat);
-	glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, no_mat);
-
-	draw(1,1,0,0);
+	// draw(1,1,0,0);
 
 	glPushMatrix();
 
@@ -71,17 +76,20 @@ void circulo::pistdraw(bool df)
 		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
 
-		GLfloat mat_cor[] = {0, 0, 0, 1.0};
-		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
-		GLUquadric *quad = gluNewQuadric();
-		if(df)
-			gluQuadricOrientation(quad,GLU_INSIDE);
-		else
-			gluQuadricOrientation(quad,GLU_OUTSIDE);
+	glTranslatef(cx,cy,0);
 
-		glTranslatef(cx,cy,0);
+	glScalef(1,1,-1);
+	GLUquadric *quad = gluNewQuadric();
+	gluQuadricOrientation(quad,GLU_OUTSIDE);
 
-		glScalef(1,1,-1);
+	gluDisk(quad, 0.0f,raio,32,1);
+	if(df)
+		gluQuadricOrientation(quad,GLU_INSIDE);
+	else
+		gluQuadricOrientation(quad,GLU_OUTSIDE);
+
+		// GLfloat mat_cor2[] = {0, 0, 0, 1.0};
+		// glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor2);
 
 		gluCylinder(quad,raio,raio,raio/2,32,32);
 	glPopMatrix();

@@ -21,11 +21,23 @@ void retangulo::draw(float h)
 
 	glPushMatrix();
 
-	glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
-	glColor3fv(mat_cor);
-	glTranslatef(px, py, -h);
-	glScalef(largura, altura, profundidade);
-	glutSolidCube(1.0);
+	// glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+		GLfloat no_mat[] = {0,0,0,1};
+		GLfloat materialColorA[] = { float(0.5*cores.red), float(0.5*cores.green), float(0.5*cores.blue), 1};
+		GLfloat materialColorD[] = { float(0.8*cores.red), float(0.8*cores.green), float(0.8*cores.blue), 1};
+		GLfloat mat_specular[] = { float(0.5*cores.red), float(0.5*cores.green), float(0.5*cores.blue), 1};
+		GLfloat mat_shininess[] = { 50 };
+
+
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
+		glColor3fv(mat_cor);
+		
+		glTranslatef(px, py, -h);
+		glScalef(largura, altura, profundidade);
+		glutSolidCube(1.0);
 
 	// glBegin(GL_POLYGON);
 	// 	glVertex3f(

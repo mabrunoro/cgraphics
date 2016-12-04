@@ -75,6 +75,10 @@ float camxy;
 float camxz;
 float lastcamx;
 float lastcamy;
+bool luz;
+bool luzb;
+bool textura;
+bool texturab;
 /*---------------------------------------------------------------------*/
 /*---------------------------------------------------------------------*/
 
@@ -158,6 +162,14 @@ void keyup(unsigned char key, int x, int y)
 		case 'D':
 			keymap['d'] = false;
 			break;
+		case 't':
+		case 'T':
+			texturab = true;
+			break;
+		case 'l':
+		case 'L':
+			luzb = true;
+			break;
 	}
 }
 
@@ -196,6 +208,18 @@ void keypress(unsigned char key, int x, int y)
 			break;
 		case '4':
 			tipocamera = 4;
+			break;
+		case 't':
+		case 'T':
+			if(texturab == true)
+				textura = !textura;
+			texturab = false;
+			break;
+		case 'l':
+		case 'L':
+			if(luzb == true)
+				luz = !luz;
+			luzb = false;
 			break;
 		default:
 			cout << "Botão pressionado: " << int(key) << endl;
@@ -359,25 +383,43 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	glEnable(GL_LIGHTING);
+	GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat mat_shininess[] = { 100.0 };
+	GLfloat light_position[] = { 0, 1, -1, 1 };
+	GLfloat light_direction[] = { 0,0,1 };
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	// glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_direction);
+	// glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30);
+
+if(luz)
+	glEnable(GL_LIGHT0);
+else
+	glDisable(GL_LIGHT0);
+
 	gluLookAt(jogador.getchassix(-1), jogador.getchassiy(-1), -30,
 						jogador.get3rdpx(4), jogador.get3rdpy(4),-40,0,0,-1);
-
-	GLfloat light_position[] = { pistadentro.cx, pistadentro.cy, -200, 1.0 };
-	GLfloat light_direction[] = { 0, 0, 1 };
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
 	pistafora.pistdraw(true);
 	pistadentro.pistdraw(false);
 
 	for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
-		it->draw();
+		it->draw(luz);
 
 	for(list<municao>::iterator it = tiros.begin(); it != tiros.end(); ++it)
 		it->draw(2*jogador.cannon.profundidade);
 
-	jogador.draw();
+	jogador.draw(luz);
 
 	chegada.draw(1);
+
+	// if(luz)
+	// 	glEnable(GL_LIGHT0);
+	// else
+	// 	glDisable(GL_LIGHT0);
 
 	// cout << janarena.altura << ' ' << janarena.largura << endl;
 
@@ -394,6 +436,10 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	PrintText(0.05, 0.05, 1,0.5,0);
+
+	glEnable(GL_LIGHTING);
+	// glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
 	switch(tipocamera)
 	{
 		case 1:
@@ -421,28 +467,32 @@ void display(void)
 			break;
 	}
 
-	// GLfloat light_position[] = { pistadentro.cx, pistadentro.cy, -100, 1.0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	// GLfloat light_position2[] = { pistadentro.cx, pistadentro.cy, -400, 1.0 };
 
-	// desenha os itens
-	// glDisable(GL_LIGHTING);
+	// glLightfv(GL_LIGHT0, GL_POSITION, light_position2);
+	// glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_direction);
+	// glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 60);
+
+	if(luz)
+		glEnable(GL_LIGHT0);
+	else
+		glDisable(GL_LIGHT0);
 
 	pistafora.pistdraw(true);
 	pistadentro.pistdraw(false);
 
 
 	for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
-		it->draw();
+		it->draw(luz);
 
 	for(list<municao>::iterator it = tiros.begin(); it != tiros.end(); ++it)
 		it->draw(2*jogador.cannon.profundidade);
 
-	jogador.draw();
+	jogador.draw(luz);
 
 	chegada.draw(1);
 
 	// printcrono(pistafora.cx + pistafora.raio/4, pistafora.cy - pistafora.raio + 10);
-	// glEnable(GL_LIGHTING);
 
 	janarena.atualizabuff();
 	// cout << "Lap: " << laps << endl;
@@ -589,6 +639,10 @@ int main(int argc, char** argv)
 	laps = 0;
 	tipocamera = 1;
 	movecam3 = false;
+	luz = true;
+	luzb = true;
+	textura = true;
+	texturab = true;
 
 	// cout << "Jogador: " << jogador.id << endl;
 	// for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)

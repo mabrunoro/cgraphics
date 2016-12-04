@@ -39,8 +39,8 @@ void carro::roda::draw(float pran, float va, bool de)
 		glTranslatef(0,0,-pneu.largura/2);
 		//pneu.draw();
 		glColor3f(0,0,0);
-		GLfloat mat_cor[] = {0,0,0,1.0};
-		glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+		// GLfloat mat_cor[] = {0,0,0,1.0};
+		// glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
 		GLUquadric *quad = gluNewQuadric();
 		gluQuadricOrientation(quad,GLU_OUTSIDE);
 		gluDisk(quad, 0.0f, pneu.altura/2, 32, 1);
@@ -114,32 +114,54 @@ carro::carro(float x, float y, float ro, float var, float vran, float del, int v
 // dir = direção do movimento (-1 trás, 0 parado, 1 frente)
 // vac = variável ângulo canhão
 // varoda = variável ângulo roda
-void carro::draw()
+void carro::draw(bool luz)
 {
-	GLfloat materialColorA[] = { 0.2, 0.2, 0.2, 1};
-	GLfloat materialColorD[] = { 0.8, 0.8, 0.8, 1};
-	GLfloat mat_specular[] = { 0.1, 0.1, 0.1, 1};
-	GLfloat mat_shininess[] = { 0 };
+	// GLfloat materialColorA[] = { float(0.5*chassi.cores.red), float(0.5*chassi.cores.green), float(0.5*chassi.cores.blue), 1};
+	// GLfloat materialColorD[] = { float(0.8*chassi.cores.red), float(0.8*chassi.cores.green), float(0.8*chassi.cores.blue), 1};
+	// GLfloat mat_specular[] = { float(0.5*chassi.cores.red), float(0.5*chassi.cores.green), float(0.5*chassi.cores.blue), 1};
+	// GLfloat mat_shininess[] = { 80 };
+	GLfloat mat_cor[] = {0.3, 0.3, 0.3, 1};
 
 	glPushMatrix();
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
 		glTranslatef(cx, cy, 0);
 		glRotatef(delta, 0, 0, 1);
 		glPushMatrix();
 			glTranslatef(0, -chassi.altura/2, 0);
+			// float aux = chassi.largura;
+			// GLfloat light_position1[] = { aux, 0, -2*cannon.profundidade, 1.0 };
+			// GLfloat light_position2[] = { -aux, 0, -2*cannon.profundidade, 1.0 };
+			// GLfloat light_direction[] = { 0, -1, 0 };
+			// GLfloat light_cutoff[] = { 45 };
+			// glEnable(GL_LIGHTING);
+			// glLightfv(GL_LIGHT2, GL_POSITION, light_position1);
+			// glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, light_direction);
+			// glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, light_cutoff);
+			//
+			// glLightfv(GL_LIGHT3, GL_POSITION, light_position2);
+			// glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, light_direction);
+			// glLightfv(GL_LIGHT3, GL_SPOT_CUTOFF, light_cutoff);
+			// if(!luz)
+			// {
+			// 	glEnable(GL_LIGHT2);
+			// 	glEnable(GL_LIGHT3);
+			// }
+			// else
+			// {
+			// 	glDisable(GL_LIGHT2);
+			// 	glDisable(GL_LIGHT3);
+			// }
 			glRotatef(vacan, 0, 0, 1);
-			GLfloat mat_cor[] = {0, 0, 0, 1};
 			glTranslatef(0, -cannon.altura/4, 0);
 			cannon.draw(2*cannon.profundidade);
 		glPopMatrix();
 
-
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_cor);
+		glMaterialf(GL_FRONT, GL_SHININESS, 10);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_cor);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_cor);
 
 		glPushMatrix();
-			glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
+			// glMaterialfv(GL_FRONT, GL_EMISSION, mat_cor);
 
 			glTranslatef(chassi.largura/2+rdd.largura/2-raio/(RAIOP/2), -chassi.altura*0.4, -rdd.pneu.altura/2);
 			// glRotatef(90,0,1,0);
@@ -164,12 +186,8 @@ void carro::draw()
 			rte.draw(pran,0,false);
 		glPopMatrix();
 
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-		glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
-
 		chassi.draw(chassi.profundidade);
+		glMaterialf(GL_FRONT, GL_SHININESS, 80);
 		cockpit.draw(1,2,1,chassi.profundidade*1.5);
 	glPopMatrix();
 }

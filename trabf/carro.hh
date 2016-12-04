@@ -63,7 +63,7 @@ public:
 // dir = direção do movimento (-1 trás, 0 parado, 1 frente)
 // vac = variável ângulo canhão
 // varoda = variável ângulo roda
-	void draw();
+	void draw(bool luz);
 
 	int atualizadel(int dir,GLdouble diff);
 
