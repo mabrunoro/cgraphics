@@ -359,14 +359,14 @@ float carro::getcy()
 	return cy;
 }
 
-float carro::getchassix()
+float carro::getchassix(int i)
 {
-	return cx + (sin(delta*M_PI/180.0)*(chassi.altura/2));
+	return cx + i*(sin(delta*M_PI/180.0)*(chassi.altura/2));
 }
 
-float carro::getchassiy()
+float carro::getchassiy(int i)
 {
-	return cy - (cos(delta*M_PI/180.0)*(chassi.altura/2));
+	return cy - i*(cos(delta*M_PI/180.0)*(chassi.altura/2));
 }
 
 float carro::get3rdpx(int v)

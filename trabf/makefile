@@ -14,7 +14,7 @@ TP := $(shell echo `uname`)
 WARFLAG := true
 
 BBM = -lm
-VER = -std=c++14
+VER = -std=c++11
 FIL =	trabf.cc tinyxml2.cpp\
 		cor.cc circulo.cc\
 		elipse.cc retangulo.cc\
@@ -43,24 +43,24 @@ endif
 
 
 all: ${FIL}
-	@printf "\n\e[1;3mMakefile\e[0m\n"
-	@printf "\t\e[1mCompilando:\e[0m \e[91mtrabalhocg\e[0m\n"
-	@printf "\t\e[1mSistema Operacional:\e[0m \e[91m${OSTYPE}\e[0m\n"
-	@printf "\t\e[1mArquivos:\e[0m \e[91m${FIL}\e[0m\n"
-	@printf "\t\e[1mWarnings:\e[0m \e[91m${WAR}\e[0m\n"
-	@printf "\t\e[1mLinks:\e[0m \e[91m${FWK} ${BBM}\e[0m\n"
-	@printf "\t\e[1mVersão:\e[0m \e[91mC++ 14\e[0m\n\n"
+	@printf "\nMakefile\n"
+	@printf "Compilando: trabalhocg\n"
+	@printf "Sistema Operacional: ${OSTYPE}\n"
+	@printf "Arquivos: ${FIL}\n"
+	@printf "Warnings: ${WAR}\n"
+	@printf "Links: ${FWK} ${BBM}\n"
+	@printf "Versão: C++ 11\e\n"
 	@g++ ${FIL} ${WAR} ${FWK} ${ML} ${BBM} ${VER} ${OUT} ${MAC}
 
 debug: ${FIL}
-	@printf "\n\e[1;3mMakefile\e[0m\n"
-	@printf "\t\e[1mCompilando:\e[0m \e[90mtrabalhocg\e[0m\n"
-	@printf "\t\e[1mSistema Operacional:\e[0m \e[90m${OSTYPE}\e[0m\n"
-	@printf "\t\e[1mArquivos:\e[0m \e[90m${FIL}\e[0m\n"
-	@printf "\t\e[1mWarnings:\e[0m \e[90m${WAR}\e[0m\n"
-	@printf "\t\e[1mLinks:\e[0m \e[90m${FWK} ${BBM}\e[0m\n"
-	@printf "\t\e[1mVersão:\e[0m \e[90mC++ 14\e[0m\n\n"
-	@printf "\t\e[1;5;91mModo debug ativado\e[0m\n\n"
+	@printf "\nMakefile\n"
+	@printf "Compilando: trabalhocg\n"
+	@printf "Sistema Operacional: ${OSTYPE}\n"
+	@printf "Arquivos: ${FIL}\n"
+	@printf "Warnings: ${WAR}\n"
+	@printf "Links: ${FWK} ${BBM}\n"
+	@printf "Versão: C++ 11\n\n"
+	@printf "\tModo debug ativado\n\n"
 	@g++ ${FIL} ${WAR} ${FWK} ${ML} ${BBM} ${VER} ${OUT} ${MAC} -D DEBUG=true
 
 # teste: ${TEST}

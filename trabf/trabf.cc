@@ -269,7 +269,7 @@ void mouseclick(int butt, int st, int x, int y)
 	else if((butt == GLUT_RIGHT_BUTTON) && (st == GLUT_UP))
 	{
 		movecam3 = false;
-		lastcamx += jogador.delta;
+		// lastcamx += jogador.delta;
 	}
 
 	// cout << '\t' << movecam3 << endl;
@@ -302,14 +302,90 @@ void printcrono(GLfloat x, GLfloat y)
 	glEnable(GL_LIGHTING);
 }
 
+void RasterChars(GLfloat x, GLfloat y, GLfloat z, const char * text, double r, double g, double b)
+{
+	//Push to recover original attributes
+	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	//Draw text in the x, y, z position
+	glColor3f(r,g,b);
+	glRasterPos3f(x, y, z);
+	const char* tmpStr;
+	tmpStr = text;
+	while( *tmpStr ){
+		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *tmpStr);
+		tmpStr++;
+	}
+	glPopAttrib();
+}
+
+void PrintText(GLfloat x, GLfloat y, double r, double g, double b)
+{
+	char *tmp;
+	int i = TGAME - duration_cast<seconds>(t2 - t1).count();
+	if((i <= 0) || (!jogando))
+	{
+		if((jogando) && (i <= 0))
+			encerrajogo(false);
+		else if(ganhou)
+			sprintf(str,"You win!");
+		else
+			sprintf(str,"You just lost the game!");
+	}
+	else
+		sprintf(str,"Tempo restante: %d",i);
+	tmp = str;
+	//Draw text considering a 2D space (disable all 3d features)
+	glMatrixMode (GL_PROJECTION);
+	//Push to recover original PROJECTION MATRIX
+	glPushMatrix();
+	glLoadIdentity ();
+	glOrtho (0, 1, 0, 1, -1, 1);
+	RasterChars(x, y, 0, tmp, r, g, b);
+	glPopMatrix();
+	glMatrixMode (GL_MODELVIEW);
+}
+
 
 void display(void)
 {
 	janarena.limpa();
+	glViewport(0,janarena.altura-200,janarena.largura,200);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	// glOrtho(largura/2,-largura/2,altura/2,-largura/2,-1.0,50.0);
+	gluPerspective(45,1.0,1,600);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	gluLookAt(jogador.getchassix(-1), jogador.getchassiy(-1), -30,
+						jogador.get3rdpx(4), jogador.get3rdpy(4),-40,0,0,-1);
+
+	GLfloat light_position[] = { pistadentro.cx, pistadentro.cy, -200, 1.0 };
+	GLfloat light_direction[] = { 0, 0, 1 };
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+	pistafora.pistdraw(true);
+	pistadentro.pistdraw(false);
+
+	for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
+		it->draw();
+
+	for(list<municao>::iterator it = tiros.begin(); it != tiros.end(); ++it)
+		it->draw(2*jogador.cannon.profundidade);
+
+	jogador.draw();
+
+	chegada.draw(1);
+
+	// cout << janarena.altura << ' ' << janarena.largura << endl;
+
+	glViewport(0,0,janarena.largura,janarena.altura-200);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
 	if(tipocamera == 4)
 		glOrtho(-janarena.largura/2,janarena.largura/2,-janarena.altura/2,janarena.altura/2,-100,100);
 		// gluPerspective(90, 1.0, 1, 500);
@@ -317,10 +393,11 @@ void display(void)
 		gluPerspective(90, 1.0, 1, 600);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	PrintText(0.05, 0.05, 1,0.5,0);
 	switch(tipocamera)
 	{
 		case 1:
-			gluLookAt(jogador.getchassix(), jogador.getchassiy(), -25,
+			gluLookAt(jogador.getchassix(1), jogador.getchassiy(1), -25,
 								jogador.getcanx(), jogador.getcany(), -24, 0,0,-1);
 			break;
 
@@ -333,11 +410,8 @@ void display(void)
 			gluLookAt(jogador.get3rdpx(4), jogador.get3rdpy(4), -80,
 							jogador.getcx(), jogador.getcy(), -60, 0,0,-1);
 			glTranslatef(jogador.cx,jogador.cy,0);
-			glRotatef(camxz,1,0,0);
-			// if(movecam3)
-			// 	glRotatef(camxy+jogador.delta,0,0,1);
-			// else
-				glRotatef(camxy,0,0,1);
+			glRotatef(camxy,0,0,1);
+			// glRotatef(camxz,1,0,0);
 			glTranslatef(-jogador.cx,-jogador.cy,0);
 			break;
 
@@ -347,7 +421,7 @@ void display(void)
 			break;
 	}
 
-	GLfloat light_position[] = { pistadentro.cx, pistadentro.cy, -100, 1.0 };
+	// GLfloat light_position[] = { pistadentro.cx, pistadentro.cy, -100, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
 	// desenha os itens
@@ -367,7 +441,7 @@ void display(void)
 
 	chegada.draw(1);
 
-	printcrono(pistafora.cx + pistafora.raio/4, pistafora.cy - pistafora.raio + 10);
+	// printcrono(pistafora.cx + pistafora.raio/4, pistafora.cy - pistafora.raio + 10);
 	// glEnable(GL_LIGHTING);
 
 	janarena.atualizabuff();
@@ -513,7 +587,7 @@ int main(int argc, char** argv)
 	jogando = true;
 	ganhou = false;
 	laps = 0;
-	tipocamera = 4;
+	tipocamera = 1;
 	movecam3 = false;
 
 	// cout << "Jogador: " << jogador.id << endl;
@@ -759,7 +833,7 @@ int lerxml(char *argv)
 
 	// Cria objeto da janela
 	janarena.altura = 2*pistafora.raio;
-	janarena.largura = janarena.altura;
+	janarena.largura = 2*pistafora.raio;
 	janarena.titulo = "Trabalho CG 2";
 	janarena.vx = pistafora.cx - pistafora.raio;
 	janarena.vy = pistafora.cx - pistafora.raio;

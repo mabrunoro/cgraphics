@@ -89,9 +89,9 @@ public:
 
 	float getcy();
 
-	float getchassix();
+	float getchassix(int i);
 
-	float getchassiy();
+	float getchassiy(int i);
 
 	float get3rdpx(int v);
 
