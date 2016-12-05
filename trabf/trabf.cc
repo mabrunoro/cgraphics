@@ -372,6 +372,49 @@ void PrintText(GLfloat x, GLfloat y, double r, double g, double b)
 }
 
 
+void minimapa()
+{
+	// glViewport(0,0,200,200);
+	//
+	// glMatrixMode(GL_PROJECTION);
+	// glPushMatrix();
+	// glLoadIdentity();
+	// glOrtho(-10,10,-10,10,-1,1);
+	// // glTranslatef(pistadentro.cx,pistadentro.cy,-200);
+	// float raiof = pistafora.raio/2;
+	// float raiod = pistadentro.raio/2;
+	// glColor3f(1,0,0);
+	// glDisable(GL_LIGHTING);
+	// glBegin(GL_POLYGON);
+	// 	for(double i = 0; i > -2 * M_PI; i -= M_PI / 24)
+	// 		glVertex3f(cos(i)*raiof, sin(i)*raiof, -90.0);
+	// glEnd();
+	// glBegin(GL_POLYGON);
+	// 	for(double i = 0; i > -2 * M_PI; i -= M_PI / 24)
+	// 		glVertex3f((pistadentro.cx+cos(i) * raiod), (pistadentro.cy+sin(i) * raiod), -110.0);
+	// glEnd();
+	// float px,py;
+	// px = (jogador.cx - pistafora.cx)/raiof;
+	// py = (jogador.cy - pistafora.cy)/raiof;
+	// glPointSize(100.0);
+	// glColor3f(jogador.cores.red,jogador.cores.green,jogador.cores.blue);
+	// glBegin(GL_POINTS);
+	// 	glVertex3f(0,0,0);
+	// glEnd();
+	// glBegin(GL_POINTS);
+	// 	for(list<carro>::iterator it = inimigos.begin(); it != inimigos.end(); ++it)
+	// 	{
+	// 		px = (it->cx - pistafora.cx)/raiof;
+	// 		py = (it->cy - pistafora.cy)/raiof;
+	// 		glColor3f(it->cores.red,it->cores.green,it->cores.blue);
+	// 		glVertex3f(px,py,0);
+	// 	}
+	// glEnd();
+	// glPopMatrix();
+	// glMatrixMode(GL_MODELVIEW);
+}
+
+
 void display(void)
 {
 	janarena.limpa();
@@ -491,6 +534,8 @@ else
 	jogador.draw(luz);
 
 	chegada.draw(1);
+
+	// minimapa();
 
 	// printcrono(pistafora.cx + pistafora.raio/4, pistafora.cy - pistafora.raio + 10);
 
